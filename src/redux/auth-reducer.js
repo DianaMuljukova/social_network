@@ -1,36 +1,69 @@
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
-const SEND_MESSAGE = 'ADD_MESSAGE';
+import {authApi} from "../api/api";
+import {stopSubmit} from "redux-form";
+
+const SET_USER_DATA = 'SET_USER_DATA';
 
 let initialState = {
-    newMessageBody: '',
-    messages: [
-        { id: 1, message: "Hi"},
-        { id: 2, message: "How are you"},
-    ],
-    dialogs: [
-        { id: 1, name: "Diana"},
-        { id: 2, name: "Svyatoslav"},
-    ],
+    userId: null,
+    email: null,
+    login: null,
+    isFetching: false,
+    isAuth: false
 };
 
-const dialogReducer = (state = initialState, action) => {
-
-
+const authReducer = (state = initialState, action) => {
 
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_BODY: {
-            return {...state, newMessageBody: action.message};
-        }
-        case SEND_MESSAGE: {
-            return {...state, messages: [...state.messages, { id: 3, message: state.newMessageBody}], newMessageBody: ''};
+        case SET_USER_DATA: {
+            console.log(action.data);
+            return {
+                ...state,
+                ...action.data,
+            };
         }
         default:
             return state;
     }
 };
 
-export const updateMessageActionCreator = (message) => ({type: UPDATE_NEW_MESSAGE_BODY, message: message});
+export const setUserData = (login, userId, email, isAuth) => ({type: SET_USER_DATA, data: {userId, email, login, isAuth}});
 
-export const addNewMessageActionCreator = () => ({type: SEND_MESSAGE});
+export const getAuthUserData = () => {
+    return (dispatch) => {
+        return authApi.me()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    let {login, id, email } = data.data;
+                    dispatch(setUserData(login, id, email, true))
+                }
+            });
+    }
+};
 
-export default dialogReducer;
+export const login = (email, password, rememberMe) => {
+    return (dispatch) => {
+        authApi.login(email, password, rememberMe)
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(getAuthUserData())
+                } else {
+                    let message = data.messages.length > 0 ? data.messages[0] : "Some error";
+                    dispatch(stopSubmit('login', {_error: message}))
+                }
+            });
+    }
+};
+
+export const logout = () => {
+    return (dispatch) => {
+        authApi.logout()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(setUserData(null, null, null, false))
+                }
+            });
+    }
+};
+
+
+export default authReducer;

@@ -1,30 +1,14 @@
 import React from "react";
-import classes from './Profile.module.css';
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
-const Profile = () => {
-    return <div className={classes.content}>
+const Profile = (props) => {
+    return (
         <div>
-            <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" alt="content"/>
+            <ProfileInfo profile={props.profile} status={props.status} updateStatus={props.updateStatus} />
+            <MyPostsContainer />
         </div>
-        <div>
-            ava + description
-        </div>
-        <div>
-            My posts
-            <div>
-                New post
-            </div>
-
-            <div>
-                <div className={classes.item}>
-                    post 1
-                </div>
-                <div className={classes.item}>
-                    post 2
-                </div>
-            </div>
-        </div>
-    </div>
+    )
 };
 
 export default Profile;

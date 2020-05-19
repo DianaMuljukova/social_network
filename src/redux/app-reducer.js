@@ -1,24 +1,19 @@
-import {authApi} from "../api/api";
-import {stopSubmit} from "redux-form";
+import {getAuthUserData} from "./auth-reducer";
 
-const SET_USER_DATA = 'SET_USER_DATA';
+const SET_INITIALIZED_SUCCESS = 'SET_INITIALIZED_SUCCESS';
 
 let initialState = {
-    userId: null,
-    email: null,
-    login: null,
-    isFetching: false,
-    isAuth: false
+    initialized: false,
 };
 
-const authReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
+
 
     switch (action.type) {
-        case SET_USER_DATA: {
-            console.log(action.data);
+        case SET_INITIALIZED_SUCCESS: {
             return {
                 ...state,
-                ...action.data,
+                initialized: true,
             };
         }
         default:
@@ -26,44 +21,17 @@ const authReducer = (state = initialState, action) => {
     }
 };
 
-export const setUserData = (login, userId, email, isAuth) => ({type: SET_USER_DATA, data: {userId, email, login, isAuth}});
+export const initializedSuccess = () => ({type: SET_INITIALIZED_SUCCESS});
 
-export const getAuthUserData = () => {
+export const initializeApp = () => {
     return (dispatch) => {
-        authApi.me()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    let {login, id, email } = data.data;
-                    dispatch(setUserData(login, id, email, true))
-                }
-            });
-    }
-};
-
-export const login = (email, password, rememberMe) => {
-    return (dispatch) => {
-        authApi.login(email, password, rememberMe)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(getAuthUserData())
-                } else {
-                    let message = data.messages.length > 0 ? data.messages[0] : "Some error";
-                    dispatch(stopSubmit('login', {_error: message}))
-                }
-            });
-    }
-};
-
-export const logout = () => {
-    return (dispatch) => {
-        authApi.logout()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setUserData(null, null, null, false))
-                }
-            });
+        let promise = dispatch(getAuthUserData());
+        Promise.all([promise]).then(() => {
+            dispatch(initializedSuccess())
+        });
     }
 };
 
 
-export default authReducer;
+
+export default appReducer;
