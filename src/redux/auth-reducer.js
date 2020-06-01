@@ -1,7 +1,7 @@
 import {authApi} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-const SET_USER_DATA = 'SET_USER_DATA';
+const SET_USER_DATA = 'samurai-network/auth/SET_USER_DATA';
 
 let initialState = {
     userId: null,
@@ -41,27 +41,23 @@ export const getAuthUserData = () => {
 };
 
 export const login = (email, password, rememberMe) => {
-    return (dispatch) => {
-        authApi.login(email, password, rememberMe)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(getAuthUserData())
-                } else {
-                    let message = data.messages.length > 0 ? data.messages[0] : "Some error";
-                    dispatch(stopSubmit('login', {_error: message}))
-                }
-            });
+    return async (dispatch) => {
+        let response = await authApi.login(email, password, rememberMe);
+        if (response.resultCode === 0) {
+            dispatch(getAuthUserData())
+        } else {
+            let message = response.messages.length > 0 ? response.messages[0] : "Some error";
+            dispatch(stopSubmit('login', {_error: message}))
+        }
     }
 };
 
 export const logout = () => {
-    return (dispatch) => {
-        authApi.logout()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setUserData(null, null, null, false))
-                }
-            });
+    return async (dispatch) => {
+        let response = await authApi.logout();
+        if (response.resultCode === 0) {
+            dispatch(setUserData(null, null, null, false))
+        }
     }
 };
 
