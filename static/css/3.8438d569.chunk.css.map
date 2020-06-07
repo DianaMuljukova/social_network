@@ -1,0 +1,1 @@
+{"version":3,"sources":["MyPosts.module.css","Post.module.css"],"names":[],"mappings":"AAAA,gEACI,YACJ,CAEA,sBACI,eACJ,CCNA,kBACI,aACJ,CAEA,sBACI,UACJ","file":"3.8438d569.chunk.css","sourcesContent":[".postsBlock {\r\n    padding: 10px;\r\n}\r\n\r\n.posts {\r\n    margin-top: 10px;\r\n}",".item {\r\n    color: deeppink;\r\n}\r\n\r\n.item img {\r\n    width: 50px;\r\n}"]}
