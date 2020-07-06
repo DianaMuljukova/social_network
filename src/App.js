@@ -1,7 +1,7 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar'
-import {BrowserRouter, HashRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderComponent from "./components/Header/HeaderContainer";
 import LoginPage from "./components/Login/Login";
@@ -44,7 +44,7 @@ class App extends React.Component {
                         <Route exact path="/" render={() => <Redirect to={"/profile"}/>} />
                         <Route exact path="/dialogs" render={ WithSuspense(DialogsContainer)} />
                         <Route path="/profile/:userId?" render={WithSuspense(ProfileContainer)} />
-                        <Route path="/users" render={() => <UsersContainer />} />
+                        <Route path="/users" render={() => <UsersContainer pageTitle={"pageTitle"} />} />
                         <Route path="/login" render={() => <LoginPage />} />
                         <Route path="*" render={() => <div>404 NOT FOUND</div>} />
                     </Switch>
