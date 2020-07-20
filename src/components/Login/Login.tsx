@@ -1,16 +1,18 @@
 import React from "react";
-import {reduxForm} from "redux-form";
+import {InjectedFormProps, reduxForm} from "redux-form";
 import {createField, Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import styles from "../../components/common/FormsControls/FormsControls.module.css";
+import {AppStateType} from "../../redux/redux-store";
 
+type LoginFormOwnProps = {
+    captchaUrl: string | null
+}
 
-
-const LoginForm = ({handleSubmit, error, captchaUrl}) => {
-    console.log(captchaUrl);
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = ({handleSubmit, error, captchaUrl}) => {
     return (
             <form onSubmit={handleSubmit}>
                     {createField("email", "email", [required], Input)}
@@ -34,12 +36,28 @@ const LoginForm = ({handleSubmit, error, captchaUrl}) => {
     )
 };
 
-const LoginReduxForm = reduxForm({
+const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnProps>({
     form: 'login'
 })(LoginForm);
 
-const Login = (props) => {
-    const onSubmit = (formData) => {
+type MapStateToPropsType = {
+    captchaUrl: string | null,
+    isAuth: boolean
+}
+
+type MapDispatchToPropsType = {
+    login: (email: string, password: string, rememberMe: boolean, captcha: string) => void
+}
+
+type LoginFormValuesType = {
+    email: string,
+    password: string,
+    rememberMe: boolean,
+    captcha: string
+}
+
+const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = (props) => {
+    const onSubmit = (formData: any) => {
         const { email, password, rememberMe, captcha } = formData;
         props.login(email, password, rememberMe, captcha)
     };
@@ -56,7 +74,7 @@ const Login = (props) => {
     )
 };
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         isAuth: state.auth.isAuth,
         captchaUrl: state.auth.captchaUrl
