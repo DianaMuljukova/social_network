@@ -15,12 +15,12 @@ type LoginFormOwnProps = {
 const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnProps> & LoginFormOwnProps> = ({handleSubmit, error, captchaUrl}) => {
     return (
             <form onSubmit={handleSubmit}>
-                    {createField("email", "email", [required], Input)}
-                    {createField("password", "password", [required], Input, {type: "password"})}
-                    {createField(null, "rememberMe", [required], Input, {type: "checkbox"}, "Remember me")}
+                    {createField<LoginFormValuesTypeKeys>("email", 'email', [required], Input)}
+                    {createField<LoginFormValuesTypeKeys>("password", "password", [required], Input, {type: "password"})}
+                    {createField<LoginFormValuesTypeKeys>(undefined, "rememberMe", [required], Input, {type: "checkbox"}, "Remember me")}
 
                 {captchaUrl && <img src={captchaUrl}/>}
-                {captchaUrl && createField("Symbols from image", "captcha", [required], Input, {})}
+                {captchaUrl && createField<LoginFormValuesTypeKeys>("Symbols from image", "captcha", [required], Input, {})}
                 {
                     error &&
                     <div className={styles.formSummaryError}>
@@ -55,6 +55,8 @@ type LoginFormValuesType = {
     rememberMe: boolean,
     captcha: string
 }
+
+type LoginFormValuesTypeKeys = Extract<keyof LoginFormValuesType, string>;
 
 const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = (props) => {
     const onSubmit = (formData: any) => {
