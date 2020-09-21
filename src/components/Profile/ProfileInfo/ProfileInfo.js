@@ -4,6 +4,7 @@ import Preloader from "../../common/Preloader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import userPhoto from '../../../assets/images/avatar-youtube-cat-png-favpng-PRA6iZsrgWAqXFqmjMsfSvuPG.jpg';
 import ProfileDataForm from "./ProfileDataForm";
+import {Button, Input} from "antd";
 
 
 
@@ -32,7 +33,7 @@ const ProfileInfo = (props) => {
         <div>
             <div className={classes.descriptionBlock}>
                 <img src={props.profile.photos.large || userPhoto} className={classes.mainPhoto} />
-                {props.isOwner && <input type="file" onChange={onMainPhotoSelected} />}
+                {props.isOwner && <Input type="file" onChange={onMainPhotoSelected} />}
                 {editMode ?
                     <ProfileDataForm initialValues={props.profile} profile={props.profile} isOwner={props.isOwner} onSubmit={onSubmit} /> :
                     <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={() => setEditMode(true)}/>
@@ -49,7 +50,7 @@ const ProfileData = (props) => {
     return  <div>
         {props.isOwner &&
         <div>
-            <button onClick={props.goToEditMode}>Edit</button>
+            <Button onClick={props.goToEditMode}>Edit</Button>
         </div>
         }
         <div>

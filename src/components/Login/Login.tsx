@@ -7,6 +7,7 @@ import {login} from "../../redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import styles from "../../components/common/FormsControls/FormsControls.module.css";
 import {AppStateType} from "../../redux/redux-store";
+import { Button } from "antd";
 
 type LoginFormOwnProps = {
     captchaUrl: string | null
@@ -28,9 +29,9 @@ const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPro
                     </div>
                 }
                 <div>
-                    <button>
+                    <Button>
                         Login
-                    </button>
+                    </Button>
                 </div>
             </form>
     )

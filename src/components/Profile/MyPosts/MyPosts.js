@@ -4,6 +4,7 @@ import Post from "./Post/Post";
 import {Field, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../../../utils/validators/validators";
 import {Textarea} from "../../common/FormsControls/FormsControls";
+import {Button} from "antd";
 
 const maxLength10 = maxLengthCreator(10);
 
@@ -39,7 +40,7 @@ const AddPostForm = props => {
                        validate={[required, maxLength10]} />
             </div>
             <div>
-                <button>Add post</button>
+                <Button>Add post</Button>
             </div>
         </form>
     )

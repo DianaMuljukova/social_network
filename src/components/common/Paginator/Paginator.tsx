@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import classes from './Paginator.module.css';
+import { Button } from "antd";
 
 type PropsType = {
     totalUsersCount: number,
@@ -28,7 +29,7 @@ let Paginator: React.FC<PropsType> = ({totalUsersCount, currentPage, onPageChang
         <div>
             <div>
                 {portionNumber > 1 &&
-                <button onClick={() => setPortionNumber(portionNumber - 1)}>LEFT</button>}
+                <Button onClick={() => setPortionNumber(portionNumber - 1)}>LEFT</Button>}
                 {pages
                     .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                     .map(p => <span
@@ -36,7 +37,7 @@ let Paginator: React.FC<PropsType> = ({totalUsersCount, currentPage, onPageChang
                     className={currentPage === p ? classes.selectedPage : ''}
                 >{p}</span>)}
                 {portionCount > portionNumber &&
-                <button onClick={() => setPortionNumber(portionNumber + 1)}>RIGHT</button>}
+                <Button onClick={() => setPortionNumber(portionNumber + 1)}>RIGHT</Button>}
             </div>
         </div>
     )

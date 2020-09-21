@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Input} from "antd";
 
 const ProfileStatusWithHooks = props => {
 
@@ -32,7 +33,7 @@ const ProfileStatusWithHooks = props => {
 
                 {editMode &&
                 <div>
-                    <input onChange={onStatusChange} autoFocus={true} type="text" onBlur={deActivateEditMode} value={status}/>
+                    <Input onChange={onStatusChange} autoFocus={true} type="text" onBlur={deActivateEditMode} value={status}/>
                 </div>
                 }
             </div>

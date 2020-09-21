@@ -6,6 +6,7 @@ import {Redirect} from "react-router-dom";
 import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../utils/validators/validators";
+import {Button} from "antd";
 
 const maxLength100 = maxLengthCreator(100);
 
@@ -51,7 +52,7 @@ const AddMessageForm = props => {
                 />
             </div>
             <div>
-                <button>Add message</button>
+                <Button>Add message</Button>
             </div>
         </form>
     )

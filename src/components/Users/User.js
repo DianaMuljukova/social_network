@@ -2,6 +2,7 @@ import React from "react";
 import classes from './Users.module.css';
 import userPhoto from '../../assets/images/avatar-youtube-cat-png-favpng-PRA6iZsrgWAqXFqmjMsfSvuPG.jpg';
 import {NavLink} from "react-router-dom";
+import {Button} from "antd";
 
 
 
@@ -18,16 +19,16 @@ let Users = ({user, followingInProgress, follow, unfollow, ...props}) => {
                             <div>
 
                                 {user.followed
-                                    ? <button
+                                    ? <Button
                                         disabled={followingInProgress.some(id => id === user.id)}
                                         onClick={() => {unfollow(user.id)}}>
                                         Unfollow
-                                    </button>
-                                    : <button
+                                    </Button>
+                                    : <Button
                                         disabled={followingInProgress.some(id => id === user.id)}
                                         onClick={() => {follow(user.id)}}>
                                         Follow
-                                    </button>
+                                    </Button>
                                 }
 
                             </div>
